@@ -1,2 +1,2 @@
-# redis-with-spring
-redis-with-spring
+# redis-spring-demo
+redis-spring-demo
