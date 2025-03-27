@@ -1,6 +1,8 @@
 package com.example.demo.common.redis;
 
 import com.google.gson.Gson;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,5 +46,42 @@ public class RedisCommon {
         }
 
         template.opsForValue().multiSet(jsonMap);
+    }
+
+    public <T> void addToSortedSet(String key, T value, Float score) {
+        String jsonValue = gson.toJson(value);
+        template.opsForZSet().add(key, jsonValue, score);
+    }
+
+    public <T> Set<T> rangeByScore(String key, Float minScore, Float maxScore, Class<T> clazz) {
+        Set<String> jsonValues = template.opsForZSet().rangeByScore(key, minScore, maxScore);
+        Set<T> resultSet = new HashSet<T>();
+
+        if (jsonValues != null) {
+            for (String jsonValue : jsonValues) {
+                T v = gson.fromJson(jsonValue, clazz);
+                resultSet.add(v);
+            }
+        }
+
+        return resultSet;
+    }
+
+    /**
+     * reverseRange: 상위 N명 랭킹
+     * range: 범위
+     */
+    public <T> Set<T> getTopNFromSortedSet(String key, int n, Class<T> clazz) {
+        Set<String> jsonValues = template.opsForZSet().reverseRange(key, 0, n-1);
+        Set<T> resultSet = new HashSet<T>();
+
+        if (jsonValues != null) {
+            for (String jsonValue : jsonValues) {
+                T v = gson.fromJson(jsonValue, clazz);
+                resultSet.add(v);
+            }
+        }
+
+        return resultSet;
     }
 }
