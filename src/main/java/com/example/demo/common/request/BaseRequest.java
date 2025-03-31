@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "base key request")
-public class BaseRequest {
+public record BaseRequest(
     @Schema(description = "redis key")
     @NotBlank
     @NotNull
-    String Key;
-}
+    String Key
+) { }
