@@ -19,6 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Service
 public class RedisCommon {
+
     private final RedisTemplate<String, String> template;
     private final Gson gson;
 
@@ -70,11 +71,10 @@ public class RedisCommon {
     }
 
     /**
-     * reverseRange: 상위 N명 랭킹
-     * range: 범위
+     * reverseRange: 상위 N명 랭킹 range: 범위
      */
     public <T> Set<T> getTopNFromSortedSet(String key, int n, Class<T> clazz) {
-        Set<String> jsonValues = template.opsForZSet().reverseRange(key, 0, n-1);
+        Set<String> jsonValues = template.opsForZSet().reverseRange(key, 0, n - 1);
         Set<T> resultSet = new HashSet<T>();
 
         if (jsonValues != null) {
