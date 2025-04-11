@@ -3,6 +3,7 @@ package com.example.demo.domain.sortedSet.service;
 import com.example.demo.common.redis.RedisCommon;
 import com.example.demo.domain.sortedSet.model.SortedSet;
 import com.example.demo.domain.sortedSet.model.request.SortedSetRequest;
+import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class RedisSortedSet {
         return redis.rangeByScore(key, min, max, SortedSet.class);
     }
 
-    public Set<SortedSet> GetTopN(String key, Integer n) {
+    public List<SortedSet> GetTopN(String key, Integer n) {
         return redis.getTopNFromSortedSet(key, n, SortedSet.class);
     }
 }

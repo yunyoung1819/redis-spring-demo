@@ -73,9 +73,9 @@ public class RedisCommon {
     /**
      * reverseRange: 상위 N명 랭킹 range: 범위
      */
-    public <T> Set<T> getTopNFromSortedSet(String key, int n, Class<T> clazz) {
+    public <T> List<T> getTopNFromSortedSet(String key, int n, Class<T> clazz) {
         Set<String> jsonValues = template.opsForZSet().reverseRange(key, 0, n - 1);
-        Set<T> resultSet = new HashSet<T>();
+        List<T> resultSet = new ArrayList<>();
 
         if (jsonValues != null) {
             for (String jsonValue : jsonValues) {

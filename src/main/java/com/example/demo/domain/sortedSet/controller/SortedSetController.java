@@ -5,6 +5,7 @@ import com.example.demo.domain.sortedSet.model.request.SortedSetRequest;
 import com.example.demo.domain.sortedSet.service.RedisSortedSet;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,7 @@ public class SortedSetController {
     }
 
     @GetMapping("/get-sorted-set-by-top")
-    public Set<SortedSet> GetTopN(@RequestParam @Valid String key, @RequestParam @Valid Integer n) {
+    public List<SortedSet> GetTopN(@RequestParam @Valid String key, @RequestParam @Valid Integer n) {
         return redis.GetTopN(key, n);
     }
 }
