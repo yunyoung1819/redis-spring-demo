@@ -118,14 +118,14 @@ public class RedisCommon {
 
     public <T> void putInHash(String key, String field, T value) {
         String jsonValue = gson.toJson(value);
-        template.opsForHash().put(key, key, jsonValue);
+        template.opsForHash().put(key, field, jsonValue);
     }
 
     public <T> T getFromHash(String key, String field, Class<T> clazz) {
         Object result = template.opsForHash().get(key, field);
 
         if (result != null) {
-            return clazz.cast(result);
+            return gson.fromJson(result.toString(), clazz);
         }
 
         return null;
